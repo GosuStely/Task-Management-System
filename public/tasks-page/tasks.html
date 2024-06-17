@@ -5,57 +5,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Management</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="tasks.css">
 </head>
 
 <body>
-    <a href="../deadlines-page/deadlines.html">Deadlines</a>
-    <a href="../projects-page/projects.html">projects</a>
-    <div class="container">
-        <h2>Create Task</h2>
+    <header>
+        <a href="../deadlines-page/deadlines.html">Deadlines</a>
+        <h2 class="logo">MyTasks</h2>
+        <a href="../projects-page/projects.html">projects</a>
+    </header>
+    <main>
+        <div class="container">
+            <h2>Create Task</h2>
+            <form id="createTaskForm">
+                <fieldset>
+                    <legend>Task Details</legend>
 
-        <!-- Task creation form -->
-        <form id="createTaskForm">
-            <fieldset>
-                <legend>Task Details</legend>
+                    <div>
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" name="title" required>
+                    </div>
 
-                <div>
-                    <label for="title">Title:</label>
-                    <input type="text" id="title" name="title" required>
-                </div>
+                    <div>
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description"></textarea>
+                    </div>
 
-                <div>
-                    <label for="description">Description:</label>
-                    <textarea id="description" name="description"></textarea>
-                </div>
+                    <div>
+                        <label for="status">Status:</label>
+                        <select id="status" name="status">
+                            <option value="Pending">Pending</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
 
-                <div>
-                    <label for="status">Status:</label>
-                    <select id="status" name="status">
-                        <option value="Pending">Pending</option>
-                        <option value="In Progress">In Progress</option>
-                        <option value="Completed">Completed</option>
-                    </select>
-                </div>
+                    <div>
+                        <label for="project_id">Project:</label>
+                        <select id="project_id" name="project_id" required>
+                        </select>
+                    </div>
+                </fieldset>
 
-                <div>
-                    <label for="project_id">Project:</label>
-                    <select id="project_id" name="project_id" required>
-                        <!-- Options will be dynamically populated -->
-                    </select>
-                </div>
-            </fieldset>
-
-            <button type="submit">Create Task</button>
-        </form>
-
-        <!-- Response container for task creation -->
-        <div id="taskResponse" class="response"></div>
-
-        <!-- Task list grouped by projects -->
-        <div id="taskLists"></div>
-    </div>
-
-    <!-- <script src="app.js"></script> -->
+                <button type="submit">Create Task</button>
+            </form>
+            <div id="taskResponse" class="response"></div>
+            <div id="taskLists"></div>
+        </div>
+    </main>
     <script src="tasks-main.js"></script>
 </body>

@@ -1,140 +1,124 @@
-// Function to fetch and display all deadlines
-function fetchAndDisplayDeadlines() {
-    fetch('/deadlines')
-        .then(response => response.json())
-        .then(deadlines => {
-            const deadlineListContainer = document.getElementById('deadlineListContainer');
-            deadlineListContainer.innerHTML = '';
+document.addEventListener('DOMContentLoaded', async function () {
+    await fetchTasks();
+    await fetchDeadlines();
 
-            deadlines.forEach(deadline => {
-                const deadlineItem = document.createElement('div');
-                deadlineItem.classList.add('deadline-item');
-                deadlineItem.innerHTML = `
-                    <p><strong>Deadline ID:</strong> ${deadline.id}</p>
-                    <p><strong>Deadline Date:</strong> ${deadline.deadline_date}</p>
-                    <p><strong>Task ID:</strong> ${deadline.task_id}</p>
-                    <button class="deleteDeadlineBtn" data-deadline-id="${deadline.id}">Delete</button>
-                    <button class="editDeadlineBtn" data-deadline-id="${deadline.id}">Edit</button>
-                    <hr>
-                `;
-                deadlineListContainer.appendChild(deadlineItem);
-
-                // Add event listener for delete button
-                const deleteBtn = deadlineItem.querySelector('.deleteDeadlineBtn');
-                deleteBtn.addEventListener('click', () => deleteDeadline(deadline.id));
-
-                // Add event listener for edit button
-                const editBtn = deadlineItem.querySelector('.editDeadlineBtn');
-                editBtn.addEventListener('click', () => showEditForm(deadline));
-            });
-        })
-        .catch(error => console.error('Error fetching deadlines:', error));
-}
-
-// Function to handle form submission (create new deadline)
-document.getElementById('createDeadlineForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-
-    const formData = new FormData(this);
-    const deadlineData = {};
-    formData.forEach((value, key) => {
-        deadlineData[key] = value;
+    // Handle form submission for creating a new deadline
+    document.getElementById('create-deadline-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        await createDeadline();
     });
-
-    fetch('/deadlines', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(deadlineData)
-    })
-        .then(response => response.json())
-        .then(data => {
-            alert('Deadline created successfully!');
-            fetchAndDisplayDeadlines(); // Refresh the deadline list
-            document.getElementById('createDeadlineForm').reset(); // Reset the form
-        })
-        .catch(error => console.error('Error creating deadline:', error));
 });
 
-// Function to delete a deadline
-function deleteDeadline(deadlineId) {
-    if (!confirm('Are you sure you want to delete this deadline?')) {
-        return;
-    }
+// Fetch all tasks and populate the dropdown with task names
+async function fetchTasks() {
+    try {
+        const response = await fetch('/tasks');
+        const tasks = await response.json();
 
-    fetch(`/deadlines/${deadlineId}`, {
-        method: 'DELETE'
-    })
-        .then(response => {
-            if (response.ok) {
-                alert('Deadline deleted successfully!');
-                fetchAndDisplayDeadlines(); // Refresh the deadline list
-            } else {
-                throw new Error('Failed to delete deadline');
-            }
-        })
-        .catch(error => console.error('Error deleting deadline:', error));
+        const taskSelect = document.getElementById('task-id');
+        tasks.forEach(task => {
+            taskMap[task.id] = task.title; // Store task title by ID for lookup
+            const option = document.createElement('option');
+            option.value = task.id;
+            option.textContent = task.title; // Only task title shown in the dropdown
+            taskSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error fetching tasks:', error);
+    }
 }
 
-// Function to show edit form with pre-filled data
-function showEditForm(deadline) {
-    const editFormContainer = document.createElement('div');
-    editFormContainer.innerHTML = `
-        <h3>Edit Deadline</h3>
-        <form id="editDeadlineForm">
-            <input type="hidden" name="id" value="${deadline.id}">
-            <div>
-                <label for="edit_deadline_date">Deadline Date:</label>
-                <input type="date" id="edit_deadline_date" name="deadline_date" value="${deadline.deadline_date}" required>
-            </div>
-            <div>
-                <label for="edit_task_id">Task ID:</label>
-                <input type="number" id="edit_task_id" name="task_id" value="${deadline.task_id}" required>
-            </div>
-            <button type="submit">Update Deadline</button>
-            <button type="button" onclick="cancelEditForm()">Cancel</button>
-        </form>
-    `;
-    editFormContainer.classList.add('edit-form');
+// Fetch all deadlines and display them in the table
+async function fetchDeadlines() {
+    try {
+        const response = await fetch('/deadlines');
+        const deadlines = await response.json();
 
-    // Handle form submission for updating deadline
-    editFormContainer.querySelector('#editDeadlineForm').addEventListener('submit', function (event) {
-        event.preventDefault();
+        const tableBody = document.querySelector('#deadlines-table tbody');
+        tableBody.innerHTML = '';
+        deadlines.forEach(deadline => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><input type="date" value="${deadline.deadline_date}" onchange="updateDeadline(${deadline.id}, this.value, ${deadline.task_id})"></td>
+                <td>${getTaskNameById(deadline.task_id)}</td>
+                <td class="actions">
+                    <button onclick="deleteDeadline(${deadline.id})">Delete</button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    } catch (error) {
+        console.error('Error fetching deadlines:', error);
+    }
+}
 
-        const formData = new FormData(this);
-        const updatedDeadlineData = {};
-        formData.forEach((value, key) => {
-            updatedDeadlineData[key] = value;
+// Store fetched tasks to use for displaying task names in the table
+let taskMap = {};
+
+// Retrieve the task name by its ID
+function getTaskNameById(taskId) {
+    return taskMap[taskId] || 'Unknown Task';
+}
+
+// Create a new deadline
+async function createDeadline() {
+    try {
+        const deadlineDate = document.getElementById('deadline-date').value;
+        const taskId = document.getElementById('task-id').value;
+
+        const response = await fetch('/deadlines', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                deadline_date: deadlineDate,
+                task_id: taskId,
+            }),
         });
 
-        fetch(`/deadlines/${deadline.id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(updatedDeadlineData)
-        })
-            .then(response => response.json())
-            .then(data => {
-                alert('Deadline updated successfully!');
-                fetchAndDisplayDeadlines(); // Refresh the deadline list
-                editFormContainer.remove(); // Remove edit form after updating
-            })
-            .catch(error => console.error('Error updating deadline:', error));
-    });
-
-    // Append edit form to the document
-    document.getElementById('deadlineListContainer').appendChild(editFormContainer);
-}
-
-// Function to cancel editing and close edit form
-function cancelEditForm() {
-    const editForm = document.querySelector('.edit-form');
-    if (editForm) {
-        editForm.remove();
+        const data = await response.json();
+        alert(data.message);
+        await fetchDeadlines();
+        document.getElementById('create-deadline-form').reset(); // Clear the form
+    } catch (error) {
+        console.error('Error creating deadline:', error);
     }
 }
 
-// Fetch and display deadlines when the page loads
-document.addEventListener('DOMContentLoaded', fetchAndDisplayDeadlines);
+// Update an existing deadline's date
+async function updateDeadline(id, newDate, taskId) {
+    try {
+        const response = await fetch(`/deadlines/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                deadline_date: newDate,
+                task_id: taskId
+            }),
+        });
+
+        const data = await response.json();
+        alert(data.message);
+        await fetchDeadlines();
+    } catch (error) {
+        console.error('Error updating deadline:', error);
+    }
+}
+
+// Delete a deadline
+async function deleteDeadline(id) {
+    try {
+        const response = await fetch(`/deadlines/${id}`, {
+            method: 'DELETE',
+        });
+
+        const data = await response.json();
+        alert(data.message);
+        await fetchDeadlines();
+    } catch (error) {
+        console.error('Error deleting deadline:', error);
+    }
+}
