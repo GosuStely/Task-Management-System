@@ -1,0 +1,150 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: white;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 4rem;
+    background-color: black;
+}
+
+.logo {
+    font-size: 2.5rem;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+    background-image: linear-gradient(90deg, #23074d, #cc5333);
+    padding: 1rem;
+}
+
+main>a {
+    text-decoration: none;
+    font-size: 3rem;
+    animation: float 4s ease 0s infinite normal forwards;
+    margin-bottom: 4rem;
+}
+
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 4rem;
+    background-color: black;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(2rem);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@media (min-width: 768px) {
+    header {
+        height: 5rem;
+    }
+
+    .logo {
+        font-size: 3rem;
+    }
+
+    main {
+        height: 110vh;
+        padding: 2rem;
+    }
+
+    main>a {
+        font-size: 4rem;
+        margin-bottom: 5rem;
+    }
+
+    footer {
+        height: 5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    header {
+        height: 5rem;
+    }
+
+    .logo {
+        font-size: 3.5rem;
+    }
+
+    main {
+        height: 100vh;
+        padding: 2rem;
+    }
+
+    main>a {
+        font-size: 4.5rem;
+    }
+
+    footer {
+        height: 5rem;
+    }
+}
+
+@media (min-width: 1280px) {
+    header {
+        height: 6rem;
+    }
+
+    .logo {
+        font-size: 4rem;
+    }
+
+    main {
+        height: 100vh;
+        padding: 2rem;
+    }
+
+    main>a {
+        font-size: 5rem;
+    }
+
+    footer {
+        height: 5rem;
+    }
+}
+
+@media (min-width: 1600px) {
+    header {
+        height: 6rem;
+    }
+
+    .logo {
+        font-size: 4.5rem;
+    }
+
+    main {
+        height: 100vh;
+        padding: 3rem;
+    }
+
+    main>a {
+        font-size: 6rem;
+    }
+
+    footer {
+        height: 5rem;
+    }
+}
