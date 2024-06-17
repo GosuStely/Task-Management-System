@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deadline Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Manage Deadlines</h2>
+
+        <!-- Form to create a new deadline -->
+        <form id="createDeadlineForm">
+            <fieldset>
+                <legend>Create New Deadline</legend>
+
+                <div>
+                    <label for="deadline_date">Deadline Date:</label>
+                    <input type="date" id="deadline_date" name="deadline_date" required>
+                </div>
+
+                <div>
+                    <label for="task_id">Task ID:</label>
+                    <input type="number" id="task_id" name="task_id" required>
+                </div>
+
+                <button type="submit">Create Deadline</button>
+            </fieldset>
+        </form>
+
+        <!-- Container to display all deadlines -->
+        <div id="deadlineListContainer"></div>
+    </div>
+
+    <script src="deadlines-main.js"></script>
+</body>
+
+</html>
