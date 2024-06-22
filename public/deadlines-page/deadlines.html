@@ -4,63 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="deadlines.css">
     <title>Manage Deadlines</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-
-        form {
-            margin-bottom: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        table,
-        th,
-        td {
-            border: 1px solid black;
-        }
-
-        th,
-        td {
-            padding: 10px;
-            text-align: left;
-        }
-
-        .action-btn {
-            cursor: pointer;
-            color: blue;
-        }
-    </style>
 </head>
 
 <body>
-    <h1>Deadline Manager</h1>
+    <header>
+        <h2 class="logo">MyTasks</h2>
+    </header>
+    <main>
+        <aside>
+            <nav>
+                <a href="../tasks-page/tasks.html">Tasks</a>
+                <a href="../projects-page/projects.html">Projects</a>
+                <a href="#">Deadlines</a>
+            </nav>
+        </aside>
+        <section class="container">
+            <h1>Deadline Manager</h1>
 
-    <h2>Create New Deadline</h2>
-    <form id="create-deadline-form">
-        <input type="date" id="deadline-date" required placeholder="Deadline Date">
-        <select id="task-id" required>
-            <option value="" disabled selected>Select a Task</option>
-        </select>
-        <button type="submit">Create Deadline</button>
-    </form>
+            <h2>Create New Deadline</h2>
+            <form id="create-deadline-form">
+                <input type="date" id="deadline-date" required placeholder="Deadline Date">
+                <select id="task-id" required>
+                    <option value="" disabled selected>Select a Task</option>
+                </select>
+                <button type="submit">Create Deadline</button>
+            </form>
 
-    <h2>Existing Deadlines</h2>
-    <table id="deadlines-table">
-        <thead>
-            <tr>
-                <th>Deadline Date</th>
-                <th>Task</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+            <h2>Existing Deadlines</h2>
+            <table id="deadlines-table">
+                <thead>
+                    <tr>
+                        <th>Deadline Date</th>
+                        <th>Task</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+    </main>
 </body>
 <script src="deadlines-main.js"></script>

@@ -37,15 +37,17 @@ async function fetchDeadlines() {
         const tableBody = document.querySelector('#deadlines-table tbody');
         tableBody.innerHTML = '';
         deadlines.forEach(deadline => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td><input type="date" value="${deadline.deadline_date}" onchange="updateDeadline(${deadline.id}, this.value, ${deadline.task_id})"></td>
-                <td>${getTaskNameById(deadline.task_id)}</td>
-                <td class="actions">
-                    <button onclick="deleteDeadline(${deadline.id})">Delete</button>
-                </td>
-            `;
-            tableBody.appendChild(row);
+            if (getTaskNameById(deadline.task_id)) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><input type="date" value="${deadline.deadline_date}" onchange="updateDeadline(${deadline.id}, this.value, ${deadline.task_id})"></td>
+                    <td>${getTaskNameById(deadline.task_id)}</td>
+                    <td class="actions">
+                        <button onclick="deleteDeadline(${deadline.id})">Delete</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            }
         });
     } catch (error) {
         console.error('Error fetching deadlines:', error);
@@ -57,7 +59,7 @@ let taskMap = {};
 
 // Retrieve the task name by its ID
 function getTaskNameById(taskId) {
-    return taskMap[taskId] || 'Unknown Task';
+    return taskMap[taskId] || false;
 }
 
 // Create a new deadline
