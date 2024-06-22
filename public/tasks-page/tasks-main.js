@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
             projects.forEach(project => {
                 const option = document.createElement('option');
                 option.value = project.id;
-                option.textContent = `Project ID: ${project.id} - ${project.name}`;
+                option.textContent = `Project: ${project.name}`;
                 projectDropdown.appendChild(option);
             });
         } catch (error) {
@@ -53,16 +53,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 tasksForProject.forEach(task => {
                     const listItem = document.createElement('li');
                     listItem.innerHTML = `
-                        <strong>Title:</strong> ${task.title}<br>
-                        <strong>Description:</strong> ${task.description}<br>
-                        <strong>Date of Creation:</strong> ${task.date_of_creation}<br>
-                        <strong>Status:</strong> ${task.status}<br>
+                        <strong>Title:</strong> ${task.title}
+                        <strong>Description:</strong> ${task.description}
+                        <strong>Date of Creation (mm-dd-yyyy):</strong> ${task.date_of_creation}
+                        <strong>Status:</strong> ${task.status}
                         <button class="deleteTaskBtn" data-task-id="${task.id}">Delete Task</button>
                         <select class="statusSelect" data-task-id="${task.id}">
                             <option value="Pending" ${task.status === 'Pending' ? 'selected' : ''}>Pending</option>
                             <option value="In Progress" ${task.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
                             <option value="Completed" ${task.status === 'Completed' ? 'selected' : ''}>Completed</option>
-                        </select><br>
+                        </select>
                         <hr>
                     `;
                     taskList.appendChild(listItem);
@@ -109,16 +109,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 throw new Error('Failed to delete task');
             }
 
-            const data = await response.json();
             const responseContainer = document.getElementById('taskResponse');
             responseContainer.textContent = `Task ID ${taskId} deleted successfully`;
-            responseContainer.style.color = 'green';
             await fetchAndDisplayTasksByProject(); // Refresh task list after deletion
         } catch (error) {
             console.error('Error deleting task:', error);
             const responseContainer = document.getElementById('taskResponse');
             responseContainer.textContent = 'Error deleting task. Please try again.';
-            responseContainer.style.color = 'red';
         }
     }
 
@@ -139,16 +136,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 throw new Error('Failed to update task status');
             }
 
-            const updatedTask = await response.json();
             const responseContainer = document.getElementById('taskResponse');
             responseContainer.textContent = `Task ID ${taskId} status updated to ${newStatus}`;
-            responseContainer.style.color = 'green';
             await fetchAndDisplayTasksByProject(); // Refresh task list after status update
         } catch (error) {
             console.error('Error updating task status:', error);
             const responseContainer = document.getElementById('taskResponse');
             responseContainer.textContent = 'Error updating task status. Please try again.';
-            responseContainer.style.color = 'red';
         }
     }
 
@@ -164,7 +158,8 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             // Set the date_of_creation field to the current date/time
-            taskData.date_of_creation = new Date().toISOString();
+            // taskData.date_of_creation = new Date().toISOString();
+            taskData.date_of_creation = new Date().toLocaleDateString();
 
             try {
                 const response = await fetch('/tasks', {
@@ -181,15 +176,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 const newTask = await response.json();
                 const responseContainer = document.getElementById('taskResponse');
-                responseContainer.textContent = `Task created successfully! Task ID: ${newTask.id}`;
-                responseContainer.style.color = 'green';
+                console.log(newTask);
+                responseContainer.textContent = `Task created successfully! Task ID: ${newTask.task_id}`;
                 await fetchAndDisplayTasksByProject(); // Refresh task list after creating a task
                 document.getElementById('createTaskForm').reset(); // Reset form after submission
             } catch (error) {
                 console.error('Error creating task:', error);
                 const responseContainer = document.getElementById('taskResponse');
                 responseContainer.textContent = 'Error creating task. Please try again.';
-                responseContainer.style.color = 'red';
             }
         });
     }

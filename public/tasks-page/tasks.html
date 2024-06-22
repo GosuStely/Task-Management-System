@@ -10,48 +10,57 @@
 
 <body>
     <header>
-        <a href="../deadlines-page/deadlines.html">Deadlines</a>
         <h2 class="logo">MyTasks</h2>
-        <a href="../projects-page/projects.html">projects</a>
     </header>
     <main>
-        <div class="container">
-            <h2>Create Task</h2>
-            <form id="createTaskForm">
-                <fieldset>
-                    <legend>Task Details</legend>
+        <aside>
+            <nav>
+                <a href="#">Tasks</a>
+                <a href="../projects-page/projects.html">Projects</a>
+                <a href="../deadlines-page/deadlines.html">Deadlines</a>
+            </nav>
+        </aside>
+        <section class="container">
+            <section class="form-container">
+                <h2>Create Task</h2>
+                <form id="createTaskForm">
+                    <fieldset>
+                        <legend>Task Details</legend>
 
-                    <div>
-                        <label for="title">Title:</label>
-                        <input type="text" id="title" name="title" required>
-                    </div>
+                        <div>
+                            <label for="title">Title:</label>
+                            <input type="text" id="title" name="title" placeholder="Title here" required>
+                        </div>
 
-                    <div>
-                        <label for="description">Description:</label>
-                        <textarea id="description" name="description"></textarea>
-                    </div>
+                        <div>
+                            <label for="description">Description:</label>
+                            <textarea id="description" name="description"></textarea>
+                        </div>
 
-                    <div>
-                        <label for="status">Status:</label>
-                        <select id="status" name="status">
-                            <option value="Pending">Pending</option>
-                            <option value="In Progress">In Progress</option>
-                            <option value="Completed">Completed</option>
-                        </select>
-                    </div>
+                        <div>
+                            <label for="status">Status:</label>
+                            <select id="status" name="status">
+                                <option value="Pending">Pending</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+                        </div>
 
-                    <div>
-                        <label for="project_id">Project:</label>
-                        <select id="project_id" name="project_id" required>
-                        </select>
-                    </div>
-                </fieldset>
+                        <div>
+                            <label for="project_id">Project:</label>
+                            <select id="project_id" name="project_id" required>
+                            </select>
+                        </div>
+                    </fieldset>
 
-                <button type="submit">Create Task</button>
-            </form>
-            <div id="taskResponse" class="response"></div>
-            <div id="taskLists"></div>
-        </div>
+                    <button type="submit">Create Task</button>
+                </form>
+            </section>
+            <section id="taskResponse" class="response"></section>
+            <section id="taskLists"></section>
+        </section>
     </main>
     <script src="tasks-main.js"></script>
 </body>
+
+</html>
