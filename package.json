@@ -3,5 +3,8 @@
   "dependencies": {
     "express": "^4.19.2",
     "sqlite3": "^5.1.7"
+  },
+  "scripts": {
+    "start": "node --watch .\\Backend\\server.js"
   }
 }

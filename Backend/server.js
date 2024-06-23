@@ -7,12 +7,22 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = 3000;
 const dbPath = path.join(__dirname, 'database', 'database.db');
-const db = new sqlite3.Database(dbPath);
+const db = new sqlite3.Database(dbPath, (err) => {
+    if (err) {
+        console.error('Could not connect to database', err);
+    } else {
+        console.log('Connected to database');
+    }
+});
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
 
-// Middleware to handle errors
+app.use(express.static(path.join(__dirname, '../Frontend')));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../Frontend', 'index.html'));
+});
+
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
@@ -105,7 +115,7 @@ app.get('/projects', (req, res) => {
 // POST a new project
 app.post('/projects', (req, res) => {
     const { name, description } = req.body;
-    const sql = `INSERT INTO projects (name, description) VALUES (?, ?)`;
+    const sql = `INSERT INTO projects (name) VALUES (?)`;
     const params = [name, description];
     db.run(sql, params, function (err) {
         if (err) {
@@ -123,7 +133,7 @@ app.post('/projects', (req, res) => {
 app.put('/projects/:id', (req, res) => {
     const projectId = req.params.id;
     const { name, description } = req.body;
-    const sql = `UPDATE projects SET name = ?, description = ? WHERE id = ?`;
+    const sql = `UPDATE projects SET name = ? WHERE id = ?`;
     const params = [name, description, projectId];
     db.run(sql, params, function (err) {
         if (err) {

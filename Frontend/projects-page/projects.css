@@ -52,7 +52,7 @@ header {
 .logo {
     color: white;
     font-size: 2.5rem;
-    padding: 1rem 3rem;
+    padding: 1rem 2rem;
 }
 
 main {
@@ -84,11 +84,11 @@ button {
     border-radius: 2rem;
     border: 2px solid #23074D;
     background-color: white;
-    padding: 1rem;
-    margin: 1rem;
+    padding: 0.5rem;
+    margin: 0.5rem;
     text-align: center;
     text-decoration: none;
-    font-size: 1.125rem;
+    font-size: 1.25rem;
     color: black;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
@@ -159,6 +159,14 @@ form button {
     padding: 0.5rem;
     margin: 0.5rem;
     flex: 1 1 200px;
+}
+
+footer {
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 4rem;
 }
 
 @media (max-width: 1024px) {

@@ -26,7 +26,6 @@ db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS projects (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    description TEXT
   )`);
 
     // Create deadlines table
@@ -38,10 +37,10 @@ db.serialize(() => {
   )`);
 
     // Insert dummy data for projects
-    db.run(`INSERT INTO projects (name, description) VALUES
-    ('Project A', 'This is project A description'),
-    ('Project B', 'This is project B description'),
-    ('Project C', 'This is project C description')`, (err) => {
+    db.run(`INSERT INTO projects (name) VALUES
+    ('Project A'),
+    ('Project B'),
+    ('Project C')`, (err) => {
         if (err) {
             console.error('Error inserting projects:', err.message);
             throw err;

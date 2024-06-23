@@ -53,10 +53,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 tasksForProject.forEach(task => {
                     const listItem = document.createElement('li');
                     listItem.innerHTML = `
-                        <strong>Title:</strong> ${task.title}
-                        <strong>Description:</strong> ${task.description}
-                        <strong>Date of Creation (mm-dd-yyyy):</strong> ${task.date_of_creation}
-                        <strong>Status:</strong> ${task.status}
+                        <strong>Title:</strong> <p>${task.title}</p>
+                        <strong>Description:</strong> <p>${task.description}</p>
+                        <strong>Date of Creation (mm-dd-yyyy):</strong> <p>${task.date_of_creation}</p>
+                        <strong>Status:</strong> <p>${task.status}</p>
                         <button class="deleteTaskBtn" data-task-id="${task.id}">Delete Task</button>
                         <select class="statusSelect" data-task-id="${task.id}">
                             <option value="Pending" ${task.status === 'Pending' ? 'selected' : ''}>Pending</option>

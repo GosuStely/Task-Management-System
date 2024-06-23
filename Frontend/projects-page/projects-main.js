@@ -49,14 +49,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
             const responseContainer = document.getElementById('responseContainer');
             responseContainer.textContent = `Project created successfully! Project ID: ${data.id}`;
-            responseContainer.style.color = 'green';
             await fetchProjects(); // Refresh project list after creation
             document.getElementById('createProjectForm').reset(); // Reset form after submission
         } catch (error) {
             console.error('Error creating project:', error);
             const responseContainer = document.getElementById('responseContainer');
             responseContainer.textContent = 'Error creating project. Please try again.';
-            responseContainer.style.color = 'red';
         }
     }
 
@@ -80,14 +78,12 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(data);
             const responseContainer = document.getElementById('responseContainer');
             responseContainer.textContent = `Project renamed successfully! New Project Name: ${newProjectName}`;
-            responseContainer.style.color = 'green';
             await fetchProjects(); // Refresh project list after renaming project
             document.getElementById('renameProjectForm').reset(); // Reset form after submission
         } catch (error) {
             console.error('Error renaming project:', error);
             const responseContainer = document.getElementById('responseContainer');
             responseContainer.textContent = 'Error renaming project. Please try again.';
-            responseContainer.style.color = 'red';
         }
     }
 
@@ -102,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok) {
                     const responseContainer = document.getElementById('responseContainer');
                     responseContainer.textContent = `Project deleted successfully! Project ID: ${projectId}`;
-                    responseContainer.style.color = 'green';
                     await fetchProjects(); // Refresh project list after deletion
                 } else {
                     throw new Error('Failed to delete project.');
@@ -111,7 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Error deleting project:', error);
                 const responseContainer = document.getElementById('responseContainer');
                 responseContainer.textContent = 'Error deleting project. Please try again.';
-                responseContainer.style.color = 'red';
             }
         }
     }
